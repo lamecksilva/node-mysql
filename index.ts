@@ -1,15 +1,21 @@
 import express, { Request, Response, Application } from 'express';
 
-// import {} from "./db"
+import { MysqlConnection } from './data';
 
 const app: Application = express();
 
-const PORT = process.env.PORT || 9000;
+const MysqlClass: any = new MysqlConnection();
 
 app.get('/all', async (req: Request, res: Response) => {
 	console.log(req.path);
 
-	return res.json({ msg: 'Hello All' });
+	const users = await MysqlClass.getUsers();
+	console.log('Users na controller');
+	console.log(users);
+
+	return res.json(users);
 });
+
+const PORT = process.env.PORT || 9000;
 
 app.listen(PORT, () => console.log(`Server Running on PORT: ${PORT}`));
