@@ -1,4 +1,4 @@
-import { Connection, createConnection, createPool } from 'mysql2';
+import { createPool } from 'mysql2';
 
 const promisePool = createPool({
 	host: 'localhost',
