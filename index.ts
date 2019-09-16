@@ -1,6 +1,6 @@
 import express, { Request, Response, Application } from 'express';
 
-import { getUsers, insertUser, getUser } from './data';
+import { getUsers, insertUser, getUser, deleteUser } from './data';
 
 const app: Application = express();
 
@@ -38,6 +38,16 @@ app.get('/register/:name', async (req: Request, res: Response) => {
 	const insertedData = await insertUser(req.params.name);
 
 	return res.json({ success: true, insertedData });
+});
+
+/**
+ * 	/delete/:id
+ * 	Delete a user by id
+ */
+app.get('/delete/:id', async (req: Request, res: Response) => {
+	const deletedUser = await deleteUser(parseInt(req.params.id));
+
+	return res.json({ success: true, deletedUser });
 });
 
 const PORT = process.env.PORT || 9000;

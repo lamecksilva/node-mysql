@@ -9,11 +9,7 @@ export const getUsers = async () => {
 };
 
 export const getUser = async (id: number) => {
-	const [rows, fields] = await conn.query('SELECT * FROM Users WHERE id = ?', [
-		[[id]]
-	]);
-
-	console.dir(rows, fields);
+	const [rows] = await conn.query('SELECT * FROM Users WHERE id = ?', [[[id]]]);
 
 	return rows;
 };
@@ -34,6 +30,10 @@ export const insertUser = async (name: string) => {
 
 export const deleteUser = async (id: number) => {
 	const [rows] = await conn.query('SELECT * FROM Users WHERE id = ?', [[[id]]]);
+
+	const [result] = await conn.query('DELETE FROM Users WHERE id = ?', [[[id]]]);
+
+	console.log(result);
 
 	return rows;
 };
