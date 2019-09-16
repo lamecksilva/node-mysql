@@ -1,12 +1,16 @@
 import { createConnection, Connection } from 'mysql2/promise';
 
+import { getUsers, insertUser } from './user';
+
 export class MysqlConnection {
 	private conn: Promise<Connection>;
 
+	// Constructor of function
 	constructor() {
 		this.conn = this.connectDB();
 	}
 
+	// Connect to Database
 	private async connectDB(): Promise<Connection> {
 		console.log('Connect to database');
 
@@ -18,55 +22,22 @@ export class MysqlConnection {
 		});
 	}
 
-	public async getUsers() {
+	// Get all users
+	public getUsers() {
 		console.log('Get Users MySQL Class');
 
-		return await this.conn.then(async connection => {
-			const [rows] = await connection.query('SELECT * FROM Users');
-
-			return rows;
-		});
+		// return this.conn.then(async connection => {
+		// 	return await getUsers(connection);
+		// });
+		return getUsers();
 	}
 
+	// Insert User in DB
 	public async insertUser(name: string) {
 		console.log('Add User');
 
-		return await this.conn.then(async connection => {
-			const [rows] = await connection.query(
-				'INSERT INTO Users(name) VALUES ?',
-				[[[name]]]
-			);
-
-			return rows;
+		return this.conn.then(async connection => {
+			return await insertUser(connection, name);
 		});
 	}
 }
-
-// const dbConfig = {
-// 	host: 'localhost',
-// 	user: 'lameck',
-// 	password: 'GUERRAcivil',
-// 	database: 'simpleDB'
-// };
-
-// export class MysqlConnection {
-// 	private conn: Connection;
-
-// 	constructor() {
-// 		this.conn = this.connectDB();
-// 	}
-
-// 	private async connectDB(): Connection {
-// 		console.log('Connect to database');
-
-// 		return await createConnection(dbConfig).then((connection: Connection) => {
-// 			return connection;
-// 		});
-// 	}
-
-// 	public async getUsers() {
-// 		console.log('Get Users MySQL Class');
-
-// 		return await this.conn.query('SELECT * FROM Users');
-// 	}
-// }
