@@ -31,9 +31,7 @@ export const insertUser = async (name: string) => {
 export const deleteUser = async (id: number) => {
 	const [rows] = await conn.query('SELECT * FROM Users WHERE id = ?', [[[id]]]);
 
-	const [result] = await conn.query('DELETE FROM Users WHERE id = ?', [[[id]]]);
-
-	console.log(result);
+	await conn.query('DELETE FROM Users WHERE id = ?', [[[id]]]);
 
 	return rows;
 };
