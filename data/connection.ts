@@ -9,4 +9,8 @@ const promisePool = createPool({
 
 const connection = promisePool.promise();
 
+if (connection) {
+	console.log('MYSQL Connected!!!');
+}
+
 export default connection;
