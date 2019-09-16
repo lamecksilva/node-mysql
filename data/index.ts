@@ -9,6 +9,7 @@ export class MysqlConnection {
 
 	private async connectDB(): Promise<Connection> {
 		console.log('Connect to database');
+
 		return await createConnection({
 			host: 'localhost',
 			user: 'lameck',
@@ -22,6 +23,19 @@ export class MysqlConnection {
 
 		return await this.conn.then(async connection => {
 			const [rows] = await connection.query('SELECT * FROM Users');
+
+			return rows;
+		});
+	}
+
+	public async insertUser(name: string) {
+		console.log('Add User');
+
+		return await this.conn.then(async connection => {
+			const [rows] = await connection.query(
+				'INSERT INTO Users(name) VALUES ?',
+				[[[name]]]
+			);
 
 			return rows;
 		});
